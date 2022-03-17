@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "593511488785",
+    "firebase_url": "https://adda-dating-app-233e0-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "adda-dating-app-233e0",
+    "storage_bucket": "adda-dating-app-233e0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:593511488785:android:16960c7a58d585c95400b0",
+        "android_client_info": {
+          "package_name": "com.adda.datingapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "593511488785-vb16kdtc12uhsk3d3bodbhcnq3ovamsl.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adda.datingapp",
+            "certificate_hash": "4bf1a7ed184d6087a003bb1a260c1d82ea161892"
+          }
+        },
+        {
+          "client_id": "593511488785-rt3ugsu1uemojqrj57q57evgkfhhkttb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAjMg31QQGeYLWXyFYraj7ATvKs4qLZWks"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "593511488785-rt3ugsu1uemojqrj57q57evgkfhhkttb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

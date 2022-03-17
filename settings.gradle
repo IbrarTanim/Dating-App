@@ -1,0 +1,2 @@
+rootProject.name = "Adda DatingApp"
+include ':app'

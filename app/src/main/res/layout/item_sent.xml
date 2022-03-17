@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="5dp">
+    /*
+    * Created by  MD.Masud Raj on 2/24/22 1:06AM
+    *  Copyright (c) 2022 . All rights reserved.
+    * if your need any help knock this number +8801776254584 whatsapp
+    */
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="100dp"
+            android:background="@drawable/sent_drawable"
+            android:fontFamily="@font/bree_serif"
+            android:paddingLeft="20dp"
+            android:paddingTop="8dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="8dp"
+            android:text="Hello Raj"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp" />
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/image"
+            android:layout_width="150dp"
+            android:layout_height="250dp"
+            android:layout_margin="5dp"
+            android:clickable="true"
+            android:foreground="@drawable/buttoneff"
+            android:longClickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/anita"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/view21"
+            app:riv_border_color="@color/view"
+            app:riv_border_width="1dip"
+            app:riv_corner_radius_bottom_left="40dp"
+            app:riv_corner_radius_top_left="40dp"
+            app:riv_corner_radius_top_right="40dp"
+            app:riv_mutate_background="true" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/feeling"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+        app:layout_constraintHorizontal_bias="0.05"
+        app:layout_constraintStart_toStartOf="@+id/linearLayout"
+        app:layout_constraintTop_toTopOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/love" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragment.PartnerProfileFragment">
+    /*
+    * Created by  MD.Masud Raj on 2/24/22 1:06AM
+    *  Copyright (c) 2022 . All rights reserved.
+    * if your need any help knock this number +8801776254584 whatsapp
+    */
+
+    <Button
+        android:id="@+id/profileSearchBtn"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/search_circel"
+        android:clickable="true"
+        android:drawableRight="@drawable/search"
+        android:filterTouchesWhenObscured="true"
+        android:foreground="@drawable/buttoneffcir"
+        android:gravity="center|left"
+        android:linksClickable="true"
+        android:longClickable="true"
+        android:text="Search"
+        android:textAllCaps="false"
+        android:textColor="#000000"
+        android:textSize="10sp"
+        android:visibility="gone"
+        app:backgroundTint="@color/gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:rippleColor="#3F51B5" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+        android:id="@+id/cover_photo"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:foreground="@drawable/buttoneff"
+        android:scaleType="centerCrop"
+        android:src="@drawable/create_button_cir"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileSearchBtn"
+        app:riv_border_color="#FFFFFF"
+        app:riv_border_width="2dip"
+        app:riv_corner_radius="5dp"
+        app:riv_mutate_background="true" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/partnerProfile"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="60dp"
+        android:background="@drawable/profilecir"
+        android:padding="5dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/masud"
+        app:civ_border_color="#E5E4E2"
+        app:civ_border_width="1dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profileSearchBtn" />
+
+    <ImageView
+        android:id="@+id/change_Partner_profile"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/arrow_color"
+        android:clickable="true"
+        android:foreground="@drawable/buttoneffcir"
+        android:longClickable="true"
+        android:padding="10dp"
+        app:layout_constraintEnd_toEndOf="@+id/partnerProfile"
+        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintStart_toStartOf="@+id/partnerProfile"
+        app:layout_constraintTop_toTopOf="@+id/partnerProfile"
+        app:srcCompat="@drawable/camera"
+        app:tint="?attr/actionMenuTextColor" />
+
+    <TextView
+        android:id="@+id/partner_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:fontFamily="@font/bree_serif"
+        android:text="Md  Raj"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/partnerProfile"
+        app:layout_constraintStart_toStartOf="@+id/partnerProfile"
+        app:layout_constraintTop_toBottomOf="@+id/partnerProfile" />
+
+    <Button
+        android:id="@+id/partnerPoint"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/button_cir"
+        android:drawableLeft="@drawable/point"
+        android:gravity="left"
+        android:text="My Point:"
+        android:textAllCaps="false"
+        android:textColor="@color/button"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:backgroundTint="#F3F3F3"
+        app:drawableTint="#FFBF00"
+        app:layout_constraintEnd_toStartOf="@+id/withDradBTN"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/partner_name" />
+
+    <Button
+        android:id="@+id/withDradBTN"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/button_cir"
+        android:text="withdraw"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        app:backgroundTint="@color/button"
+        app:layout_constraintBottom_toBottomOf="@+id/partnerPoint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/partnerPoint"
+        app:layout_constraintTop_toTopOf="@+id/partnerPoint" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

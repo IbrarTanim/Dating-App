@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="preloaded_fonts" translatable="false">
+        <item>@font/amiko_bold</item>
+        <item>@font/arbutus</item>
+        <item>@font/bree_serif</item>
+        <item>@font/hind</item>
+        <item>@font/lemon</item>
+    </array>
+</resources>

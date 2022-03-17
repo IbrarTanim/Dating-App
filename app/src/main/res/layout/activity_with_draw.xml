@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Created by  MD.Masud Raj on 2/24/22 1:06AM
+  ~  Copyright (c) 2022 . All rights reserved.
+  ~  if your need any help knock this number +8801776254584 whatsapp
+  -->
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.WithDrawActivity">
+
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bree_serif"
+        android:text="1 Point = 1 Taka "
+        android:textColor="@color/button"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/login_cir"
+        android:ems="10"
+        android:fontFamily="@font/bree_serif"
+        android:foreground="@drawable/buttoneffcir"
+        android:hint="Enter amount"
+        android:inputType="number"
+        android:longClickable="true"
+        android:padding="10dp"
+        android:paddingStart="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+
+    <EditText
+        android:id="@+id/bkashEdt"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/login_cir"
+        android:enabled="false"
+        android:fontFamily="@font/bree_serif"
+        android:foreground="@drawable/buttoneffcir"
+        android:gravity="left"
+        android:hint="Enter Bkash Number"
+        android:inputType="number"
+        android:longClickable="true"
+        android:padding="10dp"
+        android:paddingStart="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/amount"
+        app:layout_constraintStart_toStartOf="@+id/amount"
+        app:layout_constraintTop_toBottomOf="@+id/amount" />
+
+    <EditText
+        android:id="@+id/RocketEDT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/login_cir"
+        android:enabled="false"
+        android:fontFamily="@font/bree_serif"
+        android:foreground="@drawable/buttoneffcir"
+        android:gravity="left"
+        android:hint="Enter Rocket Number"
+        android:inputType="number"
+        android:longClickable="true"
+        android:padding="10dp"
+        android:paddingStart="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/amount"
+        app:layout_constraintStart_toStartOf="@+id/amount"
+        app:layout_constraintTop_toBottomOf="@+id/bkashEdt" />
+
+    <EditText
+        android:id="@+id/NagadEDT"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/login_cir"
+        android:enabled="false"
+        android:fontFamily="@font/bree_serif"
+        android:foreground="@drawable/buttoneffcir"
+        android:gravity="left"
+        android:hint="Enter Nagad Number"
+        android:inputType="number"
+        android:longClickable="true"
+        android:padding="10dp"
+        android:paddingStart="20dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="@+id/amount"
+        app:layout_constraintStart_toStartOf="@+id/amount"
+        app:layout_constraintTop_toBottomOf="@+id/RocketEDT" />
+
+    <CheckBox
+        android:id="@+id/bakashBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:fontFamily="@font/bree_serif"
+        android:foreground="@drawable/buttoneffcir"
+        android:longClickable="true"
+        android:text="Bkash Parsonal"
+        android:textSize="10sp"
+        app:buttonTint="@color/button"
+        app:layout_constraintEnd_toStartOf="@+id/roketBox"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/NagadEDT" />
+
+    <CheckBox
+        android:id="@+id/roketBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bree_serif"
+        android:foreground="@drawable/buttoneffcir"
+        android:longClickable="true"
+        android:text="Rocket Parsonal"
+        android:textSize="10sp"
+        app:buttonTint="@color/button"
+        app:layout_constraintBottom_toBottomOf="@+id/bakashBox"
+        app:layout_constraintEnd_toStartOf="@+id/NagatBox"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/bakashBox"
+        app:layout_constraintTop_toTopOf="@+id/bakashBox" />
+
+    <CheckBox
+        android:id="@+id/NagatBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bree_serif"
+        android:foreground="@drawable/buttoneffcir"
+        android:longClickable="true"
+        android:text="Nagad Personal"
+        android:textSize="10sp"
+        app:buttonTint="@color/button"
+        app:layout_constraintBottom_toBottomOf="@+id/roketBox"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/roketBox"
+        app:layout_constraintTop_toTopOf="@+id/roketBox" />
+
+    <Button
+        android:id="@+id/confirm"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:background="@drawable/button_cir"
+        android:clickable="true"
+        android:fontFamily="@font/bree_serif"
+        android:longClickable="true"
+        android:text="confirm"
+        app:backgroundTint="@color/button"
+        app:layout_constraintEnd_toEndOf="@+id/NagatBox"
+        app:layout_constraintStart_toStartOf="@+id/bakashBox"
+        app:layout_constraintTop_toBottomOf="@+id/roketBox" />
+</androidx.constraintlayout.widget.ConstraintLayout>

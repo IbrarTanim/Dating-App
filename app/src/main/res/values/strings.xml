@@ -1,0 +1,13 @@
+<resources>
+    /*
+    * Created by MD.Masud Raj on 2/24/22 1:06AM
+    * Copyright (c) 2022 . All rights reserved.
+    * if your need any help knock this number +8801776254584 whatsapp
+    */
+    <string name="app_name">Adda Dating App</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="caption">নিচের দেওয়া যেকোনো একটি নাম্বারে টাকা সেন্ডমানি করুন।যে নাম্বার থেকে টাকা পাঠিয়েছেন সে নাম্বারের লাস্ট ৪টি ডিজিট নিচের দেওয়া খালি ঘরে লিখে সেন্ড বাটনে ক্লিক করুন। লাস্ট ৪টি ডিজিট ম্যাচিং হওয়ার সাথে সাথে আপনার একাউন্টে পয়েন্ট জমা হয়ে যাবে।
+        <br>বিকাশঃ 01405906184</br> <br>নগদঃ 01405906184</br>
+    </string>
+</resources>
