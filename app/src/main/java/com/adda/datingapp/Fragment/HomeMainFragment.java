@@ -32,6 +32,7 @@ import com.adda.datingapp.databinding.CustomPopupBinding;
 import com.adda.datingapp.databinding.FragmentHomeBinding;
 
 
+import com.adda.datingapp.listeners.ClickListener;
 import com.adda.datingapp.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -87,7 +88,7 @@ public class HomeMainFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 PointsWalletFragment pointsWalletFragment=new PointsWalletFragment();
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                 transaction.replace(R.id.FragmentContent,pointsWalletFragment);
                 transaction.commit();
             }
@@ -98,7 +99,20 @@ public class HomeMainFragment extends Fragment {
 
         list = new ArrayList<>();
 
-        UserAdapter adapter = new UserAdapter(list, getContext());
+        UserAdapter adapter = new UserAdapter(list, getContext(), ((view, position) -> {
+            if (list != null && !list.isEmpty()){
+                User user = list.get(position);
+                String userId = user.getUid();
+
+                PartnerDetailsFragment partnerDetailsFragment = new PartnerDetailsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id", userId);
+                partnerDetailsFragment.setArguments(bundle);
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.FragmentContent, partnerDetailsFragment);
+                transaction.commit();
+            }
+        }));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         binding.viewProfileRv.setLayoutManager(gridLayoutManager);
         binding.viewProfileRv.setAdapter(adapter);

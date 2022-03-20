@@ -17,25 +17,36 @@
         android:theme="@style/Theme.AddaDatingApp"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".activity.WithDrawActivity"></activity>
-        <activity android:name=".activity.OrderActivity" />
-        <activity android:name=".activity.OutComingVdActivity" />
-        <activity android:name=".activity.InComingVdActivity" />
-        <activity android:name=".activity.MessagePhotoActivity" />
+        <activity android:name=".activity.WithDrawActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.OrderActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.OutComingVdActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.InComingVdActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.MessagePhotoActivity"
+            android:exported="true"/>
         <activity
             android:name=".activity.ChatsActivity"
-            android:windowSoftInputMode="stateAlwaysHidden" />
-        <activity android:name=".activity.PartnerMainActivity" />
-        <activity android:name=".activity.SignUpActivity" />
-        <activity android:name=".activity.LoginActivity" />
-        <activity android:name=".activity.SplashActivity">
+            android:windowSoftInputMode="stateAlwaysHidden"
+            android:exported="true"/>
+        <activity android:name=".activity.PartnerMainActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.SignUpActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.LoginActivity"
+            android:exported="true"/>
+        <activity android:name=".activity.SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" />
+        <activity android:name=".MainActivity"
+            android:exported="true"/>
 
         <meta-data
             android:name="preloaded_fonts"

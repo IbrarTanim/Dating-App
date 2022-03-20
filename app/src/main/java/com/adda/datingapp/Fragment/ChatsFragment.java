@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 
@@ -36,6 +37,8 @@ public class ChatsFragment extends Fragment {
     ArrayList<User> circleList;
     FirebaseDatabase database;
     FirebaseAuth auth;
+
+    private List<String> chatRoomLink;
 
 
     public ChatsFragment() {
@@ -61,6 +64,7 @@ public class ChatsFragment extends Fragment {
 
 
         circleList = new ArrayList<>();
+        chatRoomLink = new ArrayList<>();
         CircleProfileAdapter circleProfileAdapter = new CircleProfileAdapter(getContext(), circleList);
         LinearLayoutManager LayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         LayoutManager.setReverseLayout(true);
@@ -77,7 +81,6 @@ public class ChatsFragment extends Fragment {
                     User users = dataSnapshot.getValue(User.class);
                     if (!Objects.equals(users.getUid(), FirebaseAuth.getInstance().getUid()))
                         circleList.add(users);
-
                 }
                 circleProfileAdapter.notifyDataSetChanged();
 
@@ -110,6 +113,11 @@ public class ChatsFragment extends Fragment {
                     if (!Objects.equals(user.getUid(), FirebaseAuth.getInstance().getUid()))
                         list.add(user);
                 }
+                /*if (list != null && !list.isEmpty()){
+                    for (User user : list){
+
+                    }
+                }*/
                 adapter.notifyDataSetChanged();
 
             }
@@ -120,6 +128,8 @@ public class ChatsFragment extends Fragment {
 
             }
         });
+
+
 
         return  binding.getRoot();
     }

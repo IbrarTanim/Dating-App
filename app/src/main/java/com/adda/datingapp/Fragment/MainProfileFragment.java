@@ -5,6 +5,7 @@ package com.adda.datingapp.Fragment;
  * if your need any help knock this number +8801776254584 whatsapp
  */
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +19,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.adda.datingapp.model.User;
@@ -80,64 +83,18 @@ public class MainProfileFragment extends Fragment {
         binding = FragmentProfileBinding.inflate(inflater, container, false);
 
 
+        //get Data
+        getAllData();
 
         binding.GetCoin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PointsWalletFragment pointsWalletFragment=new PointsWalletFragment();
+                PointsWalletFragment pointsWalletFragment = new PointsWalletFragment();
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
                 transaction.replace(R.id.FragmentContent, pointsWalletFragment);
                 transaction.commit();
             }
         });
-
-
-        database.getReference()
-                .child("Users")
-                .child(auth.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                        if (snapshot.exists()&& snapshot.getValue() !=null){
-                            User user=snapshot.getValue(User.class);
-                            long coins= (long) user.getCoins();
-                            binding.userPoint.setText("My Points: " + coins);
-                        }
-
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-
-
-
-
-        database.getReference().child("Users").child(auth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
-                if (snapshot.exists()&& snapshot.getValue() !=null) {
-                    User userModel = snapshot.getValue(User.class);
-                    Glide.with(getContext())
-                            .load(userModel.getProfile())
-                            .placeholder(R.drawable.plasholder)
-                            .into(binding.userProfile);
-
-                    binding.uname.setText(userModel.getName());
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull @NotNull DatabaseError error) {
-
-            }
-        });
-
 
 
         binding.changeProfile.setOnClickListener(new View.OnClickListener() {
@@ -151,10 +108,113 @@ public class MainProfileFragment extends Fragment {
             }
         });
 
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth.signOut();
 
+                Intent logOutIntent = new Intent(getActivity(), LoginActivity.class);
+                logOutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                logOutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                logOutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(logOutIntent);
+            }
+        });
+
+
+        binding.ubio.setOnClickListener(view -> {
+
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.edit_bio_dialog);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.setCanceledOnTouchOutside(false);
+
+            Button saveBTN = dialog.findViewById(R.id.SaveBTN);
+            Button cancelBTN = dialog.findViewById(R.id.canselBTN);
+            EditText editBio = dialog.findViewById(R.id.bioEt);
+
+            cancelBTN.setOnClickListener(view1 -> {
+                dialog.dismiss();
+            });
+
+            saveBTN.setOnClickListener(view1 -> {
+                String bioText = String.valueOf(editBio.getText());
+
+                if (!bioText.isEmpty()) {
+                    database.getReference()
+                            .child("Users")
+                            .child(auth.getUid())
+                            .child("userBio")
+                            .setValue(bioText)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    getAllData();
+                                }
+                            });
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+        });
 
 
         return binding.getRoot();
+    }
+
+    private void getAllData() {
+
+        database.getReference()
+                .child("Users")
+                .child(auth.getUid())
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists() && snapshot.getValue() != null) {
+                            User user = snapshot.getValue(User.class);
+                            long coins = (long) user.getCoins();
+                            binding.userPoint.setText("My Points: " + coins);
+                        }
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+        database.getReference().child("Users").child(auth.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull @NotNull DataSnapshot snapshot) {
+                if (snapshot.exists() && snapshot.getValue() != null) {
+                    User userModel = snapshot.getValue(User.class);
+                    Glide.with(getContext())
+                            .load(userModel.getProfile())
+                            .placeholder(R.drawable.plasholder)
+                            .into(binding.userProfile);
+
+                    binding.uname.setText(userModel.getName());
+
+                    if (userModel.getUserBio() != null && !userModel.getUserBio().isEmpty()) {
+                        binding.ubio.setText(userModel.getUserBio());
+                    } else {
+                        binding.ubio.setText("Edit Bio");
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull @NotNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     @Override

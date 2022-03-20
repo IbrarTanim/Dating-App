@@ -49,6 +49,7 @@ public class ConversionAdapter extends RecyclerView.Adapter<ConversionAdapter.Co
 
     @Override
     public void onBindViewHolder(@NonNull ConversionAdapter.ConversionViewHolder holder, int position) {
+        int itemPos = position;
         User user = list.get(position);
         String senderId = FirebaseAuth.getInstance().getUid();
         String senderRoom = senderId + user.getUid();
@@ -61,12 +62,33 @@ public class ConversionAdapter extends RecyclerView.Adapter<ConversionAdapter.Co
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                         if (snapshot.exists()) {
+
                             String lastMsg = snapshot.child("lastMsg").getValue(String.class);
                             long lastMsgTime = snapshot.child("lastMsgTime").getValue(long.class);
                             holder.binding.lastMsg.setText(lastMsg);
-                        }else {
-                            holder.binding.lastMsg.setText("Tab to Chat");
 
+                            Glide.with(context)
+                                    .load(user.getProfile())
+                                    .placeholder(R.drawable.plasholder)
+                                    .into(holder.binding.MProfile);
+                            holder.binding.MName.setText(user.getName());
+
+                            holder.binding.item.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    Intent intent = new Intent(context, ChatsActivity.class);
+                                    intent.putExtra("name", user.getName());
+                                    intent.putExtra("image", user.getProfile());
+                                    intent.putExtra("uid", user.getUid());
+                                    intent.putExtra("token", user.getToken());
+                                    intent.putExtra("user",user);
+                                    context.startActivity(intent);
+                                    context.startActivity(intent);
+                                }
+                            });
+                            holder.binding.mainLayout.setVisibility(View.VISIBLE);
+                        }else {
+                            holder.binding.mainLayout.setVisibility(View.GONE);
                         }
 
                     }
@@ -76,29 +98,6 @@ public class ConversionAdapter extends RecyclerView.Adapter<ConversionAdapter.Co
 
                     }
                 });
-        Glide.with(context)
-                .load(user.getProfile())
-                .placeholder(R.drawable.plasholder)
-                .into(holder.binding.MProfile);
-        holder.binding.MName.setText(user.getName());
-
-        holder.binding.item.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, ChatsActivity.class);
-                intent.putExtra("name", user.getName());
-                intent.putExtra("image", user.getProfile());
-                intent.putExtra("uid", user.getUid());
-                intent.putExtra("token", user.getToken());
-                intent.putExtra("user",user);
-                context.startActivity(intent);
-                context.startActivity(intent);
-            }
-        });
-
-
-
-
     }
 
     @Override

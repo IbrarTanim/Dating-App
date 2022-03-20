@@ -4,12 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginTop="5dp">
-    /*
-    * Created by  MD.Masud Raj on 2/24/22 1:06AM
-    *  Copyright (c) 2022 . All rights reserved.
-    * if your need any help knock this number +8801776254584 whatsapp
-    */
+    android:layout_marginTop="5dp"
+    android:id="@+id/main_row_receiver">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -71,4 +67,15 @@
         app:layout_constraintTop_toTopOf="@+id/linearLayout2"
         app:layout_constraintVertical_bias="1.0"
         app:srcCompat="@drawable/love" />
+
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/message_date_receiver"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
+        app:layout_constraintStart_toStartOf="@id/linearLayout2"
+        android:layout_marginTop="5dp"
+        android:textSize="12sp"
+        android:visibility="gone"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

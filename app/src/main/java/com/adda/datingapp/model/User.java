@@ -17,7 +17,9 @@ public class User implements Serializable {
     private int usertype;
     private double coins;
 
-    public User(String uid, String name, String email, String password, String confirmPassword, String phone, int usertype,double coins) {
+    private String userBio;
+
+    public User(String uid, String name, String email, String password, String confirmPassword, String phone, int usertype, double coins) {
         this.uid = uid;
         Name = name;
         Email = email;
@@ -112,5 +114,13 @@ public class User implements Serializable {
 
     public void setCoins(double coins) {
         this.coins = coins;
+    }
+
+    public String getUserBio() {
+        return userBio;
+    }
+
+    public void setUserBio(String userBio) {
+        this.userBio = userBio;
     }
 }

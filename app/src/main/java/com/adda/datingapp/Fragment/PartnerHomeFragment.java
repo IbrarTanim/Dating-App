@@ -9,15 +9,18 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.GridLayoutManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.adda.datingapp.R;
 import com.adda.datingapp.adapter.UserAdapter;
 import com.adda.datingapp.databinding.FragmentPartnerHomeBinding;
 
+import com.adda.datingapp.listeners.ClickListener;
 import com.adda.datingapp.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -68,7 +71,20 @@ public class PartnerHomeFragment extends Fragment {
 
         list = new ArrayList<>();
 
-        UserAdapter adapter = new UserAdapter(list, getContext());
+        UserAdapter adapter = new UserAdapter(list, getContext(), (view, position) -> {
+            if (list != null && !list.isEmpty()){
+                User user = list.get(position);
+                String userId = user.getUid();
+
+                UserDetailsFragment userDetailsFragment = new UserDetailsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("user_id", userId);
+                userDetailsFragment.setArguments(bundle);
+                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                transaction.replace(R.id.partnerContent, userDetailsFragment);
+                transaction.commit();
+            }
+        });
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         binding.userlistRV.setLayoutManager(gridLayoutManager);
         binding.userlistRV.setAdapter(adapter);

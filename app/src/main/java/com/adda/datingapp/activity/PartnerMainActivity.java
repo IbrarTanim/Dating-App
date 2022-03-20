@@ -124,7 +124,6 @@ public class PartnerMainActivity extends AppCompatActivity {
 
     public void startLogin() {
         startActivity(new Intent(PartnerMainActivity.this, LoginActivity.class));
-
     }
 
 

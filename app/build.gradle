@@ -1,14 +1,9 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
 
 
 android {
-    compileSdkVersion 30
+    compileSdkVersion 32
     buildToolsVersion '30.0.3'
 
     buildFeatures {
@@ -18,7 +13,7 @@ android {
     defaultConfig {
         applicationId "com.adda.datingapp"
         minSdkVersion 23
-        targetSdkVersion 30
+        targetSdkVersion 32
         multiDexEnabled true
         versionCode 1
         versionName "1.0"

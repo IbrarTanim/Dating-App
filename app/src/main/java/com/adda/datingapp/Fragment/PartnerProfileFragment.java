@@ -5,6 +5,7 @@ package com.adda.datingapp.Fragment;
  * if your need any help knock this number +8801776254584 whatsapp
  */
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,6 +19,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.adda.datingapp.activity.WithDrawActivity;
@@ -91,6 +94,82 @@ public class PartnerProfileFragment extends Fragment {
             }
         });
 
+        //get all data
+        getAllData();
+
+
+
+        binding.changePartnerProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, 8);
+            }
+        });
+
+
+        binding.logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                auth.signOut();
+
+                Intent logOutIntent =  new Intent(getActivity(), LoginActivity.class);
+                logOutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                logOutIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                logOutIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(logOutIntent);
+            }
+        });
+
+
+        binding.ubio.setOnClickListener(view -> {
+
+            Dialog dialog = new Dialog(getContext());
+            dialog.setContentView(R.layout.edit_bio_dialog);
+            dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+            dialog.setCanceledOnTouchOutside(false);
+
+            Button saveBTN = dialog.findViewById(R.id.SaveBTN);
+            Button cancelBTN = dialog.findViewById(R.id.canselBTN);
+            EditText editBio = dialog.findViewById(R.id.bioEt);
+
+            cancelBTN.setOnClickListener(view1 -> {
+                dialog.dismiss();
+            });
+
+            saveBTN.setOnClickListener(view1 -> {
+                String bioText = String.valueOf(editBio.getText());
+
+                if (!bioText.isEmpty()) {
+                    database.getReference()
+                            .child("Partner")
+                            .child(auth.getUid())
+                            .child("userBio")
+                            .setValue(bioText)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    getAllData();
+                                }
+                            });
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+        });
+
+
+
+        return binding.getRoot();
+    }
+
+    private void getAllData() {
+
         database.getReference()
                 .child("Partner")
                 .child(auth.getUid())
@@ -126,6 +205,12 @@ public class PartnerProfileFragment extends Fragment {
 
                     binding.partnerName.setText(userModel.getName());
 
+                    if (userModel.getUserBio() != null && !userModel.getUserBio().isEmpty()) {
+                        binding.ubio.setText(userModel.getUserBio());
+                    } else {
+                        binding.ubio.setText("Edit Bio");
+                    }
+
                 }
             }
 
@@ -135,25 +220,6 @@ public class PartnerProfileFragment extends Fragment {
             }
         });
 
-
-
-        binding.changePartnerProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-                startActivityForResult(intent, 8);
-            }
-        });
-
-
-
-
-
-
-        return binding.getRoot();
     }
 
 

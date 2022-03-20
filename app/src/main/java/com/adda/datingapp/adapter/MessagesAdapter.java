@@ -1,9 +1,5 @@
 package com.adda.datingapp.adapter;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
+
 
 import android.content.Context;
 import android.content.Intent;
@@ -22,7 +18,12 @@ import com.adda.datingapp.databinding.ItemSentBinding;
 import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class MessagesAdapter extends RecyclerView.Adapter {
 
@@ -87,6 +88,20 @@ public class MessagesAdapter extends RecyclerView.Adapter {
             }
             senderViewHolder.binding.message.setText(messageModel.getMessage());
 
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
+                        .withLocale(Locale.getDefault() )
+                        .withZone( ZoneId.systemDefault() );
+                long timeStamp = messageModel.getTimestamp();
+                Instant instant = Instant.ofEpochMilli(timeStamp);
+                String messageTimeSent = formatter.format(instant);
+
+                senderViewHolder.binding.mainRowSent.setOnClickListener(view -> {
+                    senderViewHolder.binding.messageDateSent.setVisibility(View.VISIBLE);
+                    senderViewHolder.binding.messageDateSent.setText(messageTimeSent);
+                });
+            }
+
         }else {
             ReceiverViewHolder receiverViewHolder=(ReceiverViewHolder) holder;
             if (messageModel.getMessage().equals("photo")){
@@ -110,6 +125,20 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 receiverViewHolder.binding.message.setVisibility(View.VISIBLE);
             }
             receiverViewHolder.binding.message.setText(messageModel.getMessage());
+
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofLocalizedDateTime( FormatStyle.SHORT )
+                        .withLocale(Locale.getDefault() )
+                        .withZone( ZoneId.systemDefault() );
+                long timeStamp = messageModel.getTimestamp();
+                Instant instant = Instant.ofEpochMilli(timeStamp);
+                String messageTimeSent = formatter.format(instant);
+
+                receiverViewHolder.binding.mainRowReceiver.setOnClickListener(view -> {
+                    receiverViewHolder.binding.messageDateReceiver.setVisibility(View.VISIBLE);
+                    receiverViewHolder.binding.messageDateReceiver.setText(messageTimeSent);
+                });
+            }
         }
 
     }

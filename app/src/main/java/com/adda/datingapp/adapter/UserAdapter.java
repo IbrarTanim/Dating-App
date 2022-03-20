@@ -5,6 +5,7 @@ package com.adda.datingapp.adapter;
  * if your need any help knock this number +8801776254584 whatsapp
  */
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,8 +14,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.adda.datingapp.Fragment.PartnerDetailsFragment;
+import com.adda.datingapp.listeners.ClickListener;
 import com.adda.datingapp.listeners.UsersListeners;
 import com.adda.datingapp.model.User;
 import com.adda.datingapp.R;
@@ -31,12 +37,14 @@ import java.util.ArrayList;
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder> {
     ArrayList<User> list;
     Context context;
+    ClickListener clickListener;
 
     UsersListeners usersListeners;
 
-    public UserAdapter(ArrayList<User> list, Context context) {
+    public UserAdapter(ArrayList<User> list, Context context, ClickListener clickListener) {
         this.list = list;
         this.context = context;
+        this.clickListener = clickListener;
     }
 
 
@@ -50,6 +58,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserAdapter.UserViewHolder holder, int position) {
+
+        int itemPos = position;
         User user = list.get(position);
 
         Glide.with(context)
@@ -58,8 +68,6 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
                 .into(holder.binding.viewProfile);
 
         holder.binding.name.setText(user.getName());
-
-
 
 
         FirebaseDatabase.getInstance().getReference().child("presence").child(user.getUid()).addValueEventListener(new ValueEventListener() {
@@ -89,15 +97,15 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             }
         });
         holder.binding.itemlist.setOnClickListener(v -> {
-            Intent intent = new Intent(context, ChatsActivity.class);
+            /*Intent intent = new Intent(context, ChatsActivity.class);
             intent.putExtra("name", user.getName());
             intent.putExtra("image", user.getProfile());
             intent.putExtra("uid", user.getUid());
             intent.putExtra("token", user.getToken());
-            intent.putExtra("user",user);
-            context.startActivity(intent);
+            intent.putExtra("user", user);
+            context.startActivity(intent);*/
+            clickListener.onRowClick(v, itemPos);
         });
-
 
 
     }
@@ -107,16 +115,16 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
         return list.size();
     }
 
-   public class UserViewHolder extends RecyclerView.ViewHolder {
+    public class UserViewHolder extends RecyclerView.ViewHolder {
 
         ViewProfileDemoBinding binding;
         ImageView videoCall, audioCall;
 
-     UserViewHolder(@NonNull View itemView) {
+        UserViewHolder(@NonNull View itemView) {
             super(itemView);
             binding = ViewProfileDemoBinding.bind(itemView);
-         videoCall=itemView.findViewById(R.id.videocallsBtn);
-         audioCall=itemView.findViewById(R.id.audiocallBtn);
+            videoCall = itemView.findViewById(R.id.videocallsBtn);
+            audioCall = itemView.findViewById(R.id.audiocallBtn);
         }
 
 

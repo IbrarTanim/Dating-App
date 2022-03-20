@@ -62,13 +62,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         auth = FirebaseAuth.getInstance();
 
-        if (auth.getCurrentUser()!=null){
+        if (auth.getCurrentUser() != null) {
             checkUserAcceseLevel(auth.getUid());
-
-            finishAffinity();
         }
-
-
 
 
         binding.Login.setOnClickListener(this);
@@ -84,8 +80,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         });
 
     }
-
-
 
 
     @Override
@@ -120,27 +114,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             return;
         }
 
-        binding.Login.setOnClickListener(new View.OnClickListener() {
+        dialog.show();
+        String email = binding.EmailEt.getText().toString(), password = binding.passwordEt.getText().toString();
+        auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
-            public void onClick(View v) {
-                dialog.show();
-                String email = binding.EmailEt.getText().toString(), password = binding.passwordEt.getText().toString();
-                auth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            dialog.show();
-                           checkUserAcceseLevel(task.getResult().getUser().getUid());
-                           finishAffinity();
+            public void onComplete(@NonNull @NotNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    //dialog.show();
+                    checkUserAcceseLevel(task.getResult().getUser().getUid());
+                    //finishAffinity();
 
-                        }else {
-                            Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-                dialog.dismiss();
+                } else {
+                    Toast.makeText(LoginActivity.this, task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
+        dialog.dismiss();
+
     }
 
     private void checkUserAcceseLevel(String uid) {
@@ -150,26 +140,31 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .child("phone")
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                      try {
-                          String phone=snapshot.getValue(String.class);
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        try {
+                            String phone = snapshot.getValue(String.class);
 
-                        if (Objects.equals(phone, "")){
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            finishAffinity();
-
-
-                        }else {
-                            startActivity(new Intent(LoginActivity.this, PartnerMainActivity.class));
-                            finish();
-                        }   }catch (Exception e){
-                          e.printStackTrace();
-                      }
+                            if (Objects.equals(phone, "")) {
+                                Intent mainUserIntent = new Intent(LoginActivity.this, MainActivity.class);
+                                mainUserIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                mainUserIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                mainUserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(mainUserIntent);
+                            } else {
+                                Intent mainPartnerIntent = new Intent(LoginActivity.this, PartnerMainActivity.class);
+                                mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(mainPartnerIntent);
+                            }
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
 
                     }
 
                     @Override
-                    public void onCancelled(@NonNull  DatabaseError error) {
+                    public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });

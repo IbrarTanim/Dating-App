@@ -107,7 +107,6 @@ public class PartnerChatsFragment extends Fragment {
                 User user=dataSnapshot.getValue(User.class);
                     if (!user.getUid().equals(FirebaseAuth.getInstance().getUid()))
                         list.add(user);
-
                 }
                 adapter.notifyDataSetChanged();
 

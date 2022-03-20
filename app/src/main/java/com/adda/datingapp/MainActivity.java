@@ -119,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void startLogin() {
         startActivity(new Intent(MainActivity.this, LoginActivity.class));
-
     }
 
     @Override

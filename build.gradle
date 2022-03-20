@@ -7,11 +7,6 @@ buildscript {
     dependencies {
         classpath "com.android.tools.build:gradle:4.2.2"
         classpath 'com.google.gms:google-services:4.3.10'
-        /*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
 
 
         // NOTE: Do not place your application dependencies here; they belong

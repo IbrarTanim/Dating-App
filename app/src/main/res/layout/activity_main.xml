@@ -5,12 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    /*
-    * Created by  MD.Masud Raj on 2/24/22 1:06AM
-    *  Copyright (c) 2022 . All rights reserved.
-    * if your need any help knock this number +8801776254584 whatsapp
-    */
-
 
     <FrameLayout
         android:id="@+id/FragmentContent"
