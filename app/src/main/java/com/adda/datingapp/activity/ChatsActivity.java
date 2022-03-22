@@ -1,9 +1,5 @@
 package com.adda.datingapp.activity;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -257,6 +253,16 @@ public class ChatsActivity extends AppCompatActivity {
                         messages.clear();
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
+                            String snapshotId = dataSnapshot.getKey();
+                            if (messageModel.getSenderId().equals(receiverUid)){
+                                database.getReference()
+                                        .child("chats")
+                                        .child(senderRoom)
+                                        .child("message")
+                                        .child(snapshotId)
+                                        .child("seenStatus")
+                                        .setValue("1");
+                            }
                             messages.add(messageModel);
                         }
                         messagesAdapter.notifyDataSetChanged();

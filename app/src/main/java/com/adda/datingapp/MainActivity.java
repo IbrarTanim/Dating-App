@@ -1,9 +1,5 @@
 package com.adda.datingapp;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
+
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,6 +7,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -19,6 +16,7 @@ import android.os.PowerManager;
 import android.provider.Settings;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -100,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.profileMenu:
                         if (auth.getCurrentUser() != null) {
                             transaction.replace(R.id.FragmentContent, new MainProfileFragment());
-
                         } else {
                             startLogin();
                         }
@@ -118,7 +115,27 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startLogin() {
-        startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.login_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
+        Button cancelBTN = dialog.findViewById(R.id.canselBTN);
+        Button loginBTN = dialog.findViewById(R.id.loginBTN);
+
+        cancelBTN.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
+
+        loginBTN.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loginIntent);
+        });
+        dialog.show();
     }
 
     @Override

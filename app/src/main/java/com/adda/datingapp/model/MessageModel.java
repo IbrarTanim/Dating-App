@@ -1,12 +1,10 @@
 package com.adda.datingapp.model;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
+
 
 public class MessageModel {
+
     private String messageId, message, senderId, imageUrl;
+    private String seenStatus;
     private long timestamp;
     private int feeling;
 
@@ -15,6 +13,7 @@ public class MessageModel {
         this.senderId = senderId;
         this.timestamp = timestamp;
     }
+
 
     public MessageModel() {
     }
@@ -65,5 +64,13 @@ public class MessageModel {
 
     public void setFeeling(int feeling) {
         this.feeling = feeling;
+    }
+
+    public String getSeenStatus() {
+        return seenStatus;
+    }
+
+    public void setSeenStatus(String seenStatus) {
+        this.seenStatus = seenStatus;
     }
 }

@@ -1,9 +1,5 @@
 package com.adda.datingapp.Fragment;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
+
 
 import android.os.Bundle;
 

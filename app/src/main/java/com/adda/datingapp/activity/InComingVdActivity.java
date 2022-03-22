@@ -135,6 +135,7 @@ public class InComingVdActivity extends AppCompatActivity {
                             builder.setRoom(getIntent().getStringExtra(Constants.REMOTE_MSG_MEETING_ROOM));
                             if (meetingType.equals("audio")){
                                 builder.setVideoMuted(true);
+                                builder.setAudioOnly(true);
                             }
 
                             JitsiMeetActivity.launch(InComingVdActivity.this, builder.build());

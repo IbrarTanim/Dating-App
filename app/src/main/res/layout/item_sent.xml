@@ -47,9 +47,9 @@
             app:layout_constraintTop_toTopOf="@+id/view21"
             app:riv_border_color="@color/view"
             app:riv_border_width="1dip"
-            app:riv_corner_radius_bottom_left="40dp"
-            app:riv_corner_radius_top_left="40dp"
-            app:riv_corner_radius_top_right="40dp"
+            app:riv_corner_radius_bottom_left="12dp"
+            app:riv_corner_radius_top_left="12dp"
+            app:riv_corner_radius_top_right="12dp"
             app:riv_mutate_background="true" />
     </LinearLayout>
 
@@ -70,10 +70,21 @@
         android:id="@+id/message_date_sent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="12/03/2022 5:20"
+        app:layout_constraintEnd_toStartOf="@+id/seen_status_iv"
+        app:layout_constraintTop_toTopOf="@+id/seen_status_iv"
+        app:layout_constraintBottom_toBottomOf="@+id/seen_status_iv"
+        android:layout_marginEnd="5dp"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/seen_status_iv"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="@id/linearLayout"
-        android:layout_marginTop="5dp"
-        android:textSize="12sp"
-        android:visibility="gone"/>
+        android:src="@drawable/ic_sent"
+        app:tint="@color/dark_black"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

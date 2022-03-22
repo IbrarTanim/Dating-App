@@ -1,12 +1,8 @@
 package com.adda.datingapp.Fragment;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
-
 
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -26,7 +22,9 @@ import android.widget.MediaController;
 import android.widget.VideoView;
 
 
+import com.adda.datingapp.MainActivity;
 import com.adda.datingapp.R;
+import com.adda.datingapp.activity.LoginActivity;
 import com.adda.datingapp.adapter.UserAdapter;
 import com.adda.datingapp.databinding.CustomPopupBinding;
 import com.adda.datingapp.databinding.FragmentHomeBinding;
@@ -56,7 +54,7 @@ public class HomeMainFragment extends Fragment {
     FirebaseDatabase database;
     FirebaseAuth auth;
     Dialog popupDialog;
-
+    Context context;
 
 
     public HomeMainFragment() {
@@ -69,7 +67,7 @@ public class HomeMainFragment extends Fragment {
         super.onCreate(savedInstanceState);
         database = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
-        popupDialog=new Dialog(getContext());
+        popupDialog = new Dialog(getContext());
 
 
     }
@@ -83,61 +81,48 @@ public class HomeMainFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
 
 
-
         binding.getPoint.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PointsWalletFragment pointsWalletFragment=new PointsWalletFragment();
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.FragmentContent,pointsWalletFragment);
-                transaction.commit();
+
+                if (auth.getCurrentUser() != null){
+                    PointsWalletFragment pointsWalletFragment = new PointsWalletFragment();
+                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                    transaction.replace(R.id.FragmentContent, pointsWalletFragment);
+                    transaction.commit();
+                }else {
+                    startLogin();
+                    startLogin();
+                }
             }
         });
-
-
 
 
         list = new ArrayList<>();
 
         UserAdapter adapter = new UserAdapter(list, getContext(), ((view, position) -> {
-            if (list != null && !list.isEmpty()){
-                User user = list.get(position);
-                String userId = user.getUid();
 
-                PartnerDetailsFragment partnerDetailsFragment = new PartnerDetailsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("user_id", userId);
-                partnerDetailsFragment.setArguments(bundle);
-                FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
-                transaction.replace(R.id.FragmentContent, partnerDetailsFragment);
-                transaction.commit();
+            if (auth.getCurrentUser() != null){
+                if (list != null && !list.isEmpty()) {
+                    User user = list.get(position);
+                    String userId = user.getUid();
+
+                    PartnerDetailsFragment partnerDetailsFragment = new PartnerDetailsFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putString("user_id", userId);
+                    partnerDetailsFragment.setArguments(bundle);
+                    FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
+                    transaction.replace(R.id.FragmentContent, partnerDetailsFragment);
+                    transaction.commit();
+                }
+            }else {
+                startLogin();
             }
+
         }));
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         binding.viewProfileRv.setLayoutManager(gridLayoutManager);
         binding.viewProfileRv.setAdapter(adapter);
-
-
-        database.getReference()
-                .child("Users")
-                .child(auth.getUid())
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull  DataSnapshot snapshot) {
-                        if (snapshot.exists()&& snapshot.getValue() !=null){
-                            User user=snapshot.getValue(User.class);
-                            long coins= (long) user.getCoins();
-                            binding.usercoin.setText("My Points: "+coins);
-                        }
-
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
 
         database.getReference().child("Partner").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -159,79 +144,95 @@ public class HomeMainFragment extends Fragment {
         });
 
 
-        FirebaseMessaging.getInstance()
-                .getToken()
-                .addOnSuccessListener(new OnSuccessListener<String>() {
-                    @Override
-                    public void onSuccess(String token) {
-                        HashMap<String, Object> map = new HashMap<>();
-                        map.put("token", token);
-                        database.getReference()
-                                .child("Users")
-                                .child(FirebaseAuth.getInstance().getUid())
-                                .updateChildren(map);
-                        //Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
-                    }
-                });
+        if (auth.getCurrentUser() != null) {
 
+            database.getReference()
+                    .child("Users")
+                    .child(auth.getUid())
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists() && snapshot.getValue() != null) {
+                                User user = snapshot.getValue(User.class);
+                                long coins = (long) user.getCoins();
+                                binding.usercoin.setText("My Points: " + coins);
+                            }
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+            FirebaseMessaging.getInstance()
+                    .getToken()
+                    .addOnSuccessListener(new OnSuccessListener<String>() {
+                        @Override
+                        public void onSuccess(String token) {
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("token", token);
+                            database.getReference()
+                                    .child("Users")
+                                    .child(FirebaseAuth.getInstance().getUid())
+                                    .updateChildren(map);
+                            //Toast.makeText(MainActivity.this, token, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
 
 
         return binding.getRoot();
     }
 
 
-
-
     @Override
     public void onResume() {
         super.onResume();
-        database.getReference().child("presence").child(auth.getUid()).setValue("online");
+        if (auth.getCurrentUser() != null) {
+            database.getReference().child("presence").child(auth.getUid()).setValue("online");
+        }
     }
 
     @Override
     public void onPause() {
-        database.getReference().child("presence").child(auth.getUid()).setValue("offline");
+        if (auth.getCurrentUser() != null) {
+            database.getReference().child("presence").child(auth.getUid()).setValue("offline");
+        }
         super.onPause();
     }
 
+    public void startLogin() {
+        Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.login_dialog);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
 
+        Button cancelBTN = dialog.findViewById(R.id.canselBTN);
+        Button loginBTN = dialog.findViewById(R.id.loginBTN);
 
+        cancelBTN.setOnClickListener(view -> {
+            dialog.dismiss();
+        });
 
-//    public void showPopup(){
-//        ImageView cross;
-//        Button GetPoint;
-//        popupDialog.setContentView(R.layout.custom_popup);
-//        cross=popupDialog.findViewById(R.id.corzBtn);
-//        GetPoint=popupDialog.findViewById(R.id.vidGetPoint);
-//        VideoView videoView=popupDialog.findViewById(R.id.popupVideo);
-//
-//
-//        cross.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                popupDialog.dismiss();
-//            }
-//        });
-//
-//        GetPoint.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PointsWalletFragment pointsWalletFragment=new PointsWalletFragment();
-//                FragmentTransaction transaction = requireFragmentManager().beginTransaction();
-//                transaction.replace(R.id.FragmentContent,pointsWalletFragment);
-//                transaction.commit();
-//                popupDialog.dismiss();
-//
-//
-//            }
-//        });
-//
-//        videoView.setVideoURI(Uri.parse("android.resource://" + getContext().getPackageName()+ "/"+R.raw.popup_video ));
-//        MediaController mediaController=new MediaController(getContext());
-//        videoView.setMediaController(mediaController);
-//        videoView.start();
-//
-//        popupDialog.show();
-//        popupDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-//    }
+        loginBTN.setOnClickListener(view -> {
+            dialog.dismiss();
+            Intent loginIntent = new Intent(context, LoginActivity.class);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(loginIntent);
+        });
+        dialog.show();
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        this.context = context;
+    }
 }

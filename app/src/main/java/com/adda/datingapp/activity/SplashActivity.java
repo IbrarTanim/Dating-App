@@ -1,10 +1,7 @@
 package com.adda.datingapp.activity;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
 
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
@@ -13,17 +10,26 @@ import android.content.IntentSender;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.Toast;
 
 
+import com.adda.datingapp.MainActivity;
 import com.adda.datingapp.databinding.ActivitySplashBinding;
 import com.google.android.play.core.appupdate.AppUpdateInfo;
 import com.google.android.play.core.appupdate.AppUpdateManager;
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory;
 import com.google.android.play.core.install.model.UpdateAvailability;
 import com.google.android.play.core.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import static com.google.android.play.core.install.model.AppUpdateType.IMMEDIATE;
+
+import java.util.Objects;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -68,9 +74,13 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                startActivity(new Intent(SplashActivity.this, LoginActivity.class));
-                finish();
-
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                if (auth.getCurrentUser() != null){
+                    checkUserAcceseLevel(auth.getUid());
+                }else {
+                    startActivity(new Intent(SplashActivity.this, MainActivity.class));
+                    finish();
+                }
             }
         }, 2000);
 
@@ -119,31 +129,68 @@ public class SplashActivity extends AppCompatActivity {
         }
     }
 
-//    private void checkUserAcceseLevel(String uid) {
-//        FirebaseDatabase.getInstance().getReference()
-//                .child("Users")
-//                .child(uid)
-//                .child("phone")
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        String phone=snapshot.getValue(String.class);
-//                        if (Objects.equals(phone, "")){
-//                            startActivity(new Intent(SplashActivity.this, MainActivity.class));
-//                            finishAffinity();
-//
-//
-//                        }else {
-//                            startActivity(new Intent(SplashActivity.this, ZoomProfileActivity.class));
-//                            finish();
-//                        }
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//    }
+
+    private void checkUserAcceseLevel(String uid) {
+        FirebaseDatabase.getInstance().getReference()
+                .child("Users")
+                .child(uid)
+                .child("phone")
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        try {
+                            String phone = snapshot.getValue(String.class);
+
+                            if (Objects.equals(phone, "")) {
+                                Intent mainUserIntent = new Intent(SplashActivity.this, MainActivity.class);
+                                mainUserIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                mainUserIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                mainUserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(mainUserIntent);
+                            } else {
+
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("Partner")
+                                        .child(uid)
+                                        .child("approved")
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                try {
+                                                    if (snapshot.getValue(String.class).equals("1")){
+                                                        Intent mainPartnerIntent = new Intent(SplashActivity.this, PartnerMainActivity.class);
+                                                        mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(mainPartnerIntent);
+                                                    }else {
+                                                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                        auth.signOut();
+                                                        Toast.makeText(SplashActivity.this, "Your account not approved yet!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }catch (Exception e){
+                                                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                    auth.signOut();
+                                                    Toast.makeText(SplashActivity.this, "Your account not approved yet!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                            }
+                        } catch (Exception e) {
+                            //e.printStackTrace();
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+    }
 }

@@ -1,9 +1,5 @@
 package com.adda.datingapp.activity;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -62,9 +58,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         auth = FirebaseAuth.getInstance();
 
-        if (auth.getCurrentUser() != null) {
+        /*if (auth.getCurrentUser() != null) {
             checkUserAcceseLevel(auth.getUid());
-        }
+        }*/
 
 
         binding.Login.setOnClickListener(this);
@@ -151,14 +147,45 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 mainUserIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(mainUserIntent);
                             } else {
-                                Intent mainPartnerIntent = new Intent(LoginActivity.this, PartnerMainActivity.class);
-                                mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                                mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(mainPartnerIntent);
+
+                                FirebaseDatabase.getInstance().getReference()
+                                        .child("Partner")
+                                        .child(uid)
+                                        .child("approved")
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                try {
+                                                    if (snapshot.getValue(String.class).equals("1")){
+                                                        Intent mainPartnerIntent = new Intent(LoginActivity.this, PartnerMainActivity.class);
+                                                        mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                                        mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                                        mainPartnerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivity(mainPartnerIntent);
+                                                    }else {
+                                                        FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                        auth.signOut();
+                                                        binding.EmailEt.setText("");
+                                                        binding.passwordEt.setText("");
+                                                        Toast.makeText(LoginActivity.this, "Your account not approved yet!", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                }catch (Exception e){
+                                                    FirebaseAuth auth = FirebaseAuth.getInstance();
+                                                    auth.signOut();
+                                                    binding.EmailEt.setText("");
+                                                    binding.passwordEt.setText("");
+                                                    Toast.makeText(LoginActivity.this, "Your account not approved yet!", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
+                            //e.printStackTrace();
                         }
 
                     }

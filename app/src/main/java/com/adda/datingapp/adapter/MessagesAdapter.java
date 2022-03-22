@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adda.datingapp.model.MessageModel;
@@ -95,11 +96,20 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 long timeStamp = messageModel.getTimestamp();
                 Instant instant = Instant.ofEpochMilli(timeStamp);
                 String messageTimeSent = formatter.format(instant);
+                senderViewHolder.binding.messageDateSent.setText(messageTimeSent);
 
-                senderViewHolder.binding.mainRowSent.setOnClickListener(view -> {
+                /*senderViewHolder.binding.mainRowSent.setOnClickListener(view -> {
                     senderViewHolder.binding.messageDateSent.setVisibility(View.VISIBLE);
-                    senderViewHolder.binding.messageDateSent.setText(messageTimeSent);
-                });
+
+                });*/
+            }
+
+            if (messageModel.getSeenStatus() != null){
+                if (messageModel.getSeenStatus().equals("1")){
+                    senderViewHolder.binding.seenStatusIv.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_delivered));
+                }else {
+                    senderViewHolder.binding.seenStatusIv.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.ic_sent));
+                }
             }
 
         }else {
@@ -133,11 +143,12 @@ public class MessagesAdapter extends RecyclerView.Adapter {
                 long timeStamp = messageModel.getTimestamp();
                 Instant instant = Instant.ofEpochMilli(timeStamp);
                 String messageTimeSent = formatter.format(instant);
+                receiverViewHolder.binding.messageDateReceiver.setText(messageTimeSent);
 
-                receiverViewHolder.binding.mainRowReceiver.setOnClickListener(view -> {
+                /*receiverViewHolder.binding.mainRowReceiver.setOnClickListener(view -> {
                     receiverViewHolder.binding.messageDateReceiver.setVisibility(View.VISIBLE);
-                    receiverViewHolder.binding.messageDateReceiver.setText(messageTimeSent);
-                });
+
+                });*/
             }
         }
 

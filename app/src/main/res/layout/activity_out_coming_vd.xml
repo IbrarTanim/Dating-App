@@ -15,7 +15,6 @@
         android:background="@drawable/call_cir"
         android:backgroundTint="@color/dark_white"
         android:gravity="center"
-        android:text="T"
         android:textColor="@color/button"
         android:textSize="80sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -28,8 +27,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/bree_serif"
-
-        android:text="Raj"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/Usertex"

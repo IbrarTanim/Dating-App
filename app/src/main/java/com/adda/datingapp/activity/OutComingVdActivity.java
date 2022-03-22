@@ -300,6 +300,7 @@ public class OutComingVdActivity extends AppCompatActivity {
                             builder.setRoom(meetingRoom);
                             if (meetingType.equals("audio")) {
                                 builder.setVideoMuted(true);
+                                builder.setAudioOnly(true);
                             }
 
                             JitsiMeetActivity.launch(OutComingVdActivity.this, builder.build());

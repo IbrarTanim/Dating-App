@@ -48,9 +48,9 @@
             app:layout_constraintTop_toTopOf="@+id/view21"
             app:riv_border_color="@color/view"
             app:riv_border_width="1dip"
-            app:riv_corner_radius_bottom_right="40dp"
-            app:riv_corner_radius_top_left="40dp"
-            app:riv_corner_radius_top_right="40dp"
+            app:riv_corner_radius_bottom_right="12dp"
+            app:riv_corner_radius_top_left="12dp"
+            app:riv_corner_radius_top_right="12dp"
             app:riv_mutate_background="true" />
 
     </LinearLayout>
@@ -75,7 +75,6 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2"
         app:layout_constraintStart_toStartOf="@id/linearLayout2"
         android:layout_marginTop="5dp"
-        android:textSize="12sp"
-        android:visibility="gone"/>
+        android:textSize="12sp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
