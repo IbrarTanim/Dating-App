@@ -113,11 +113,6 @@ public class ChatsFragment extends Fragment {
                     if (!Objects.equals(user.getUid(), FirebaseAuth.getInstance().getUid()))
                         list.add(user);
                 }
-                /*if (list != null && !list.isEmpty()){
-                    for (User user : list){
-
-                    }
-                }*/
                 adapter.notifyDataSetChanged();
 
             }

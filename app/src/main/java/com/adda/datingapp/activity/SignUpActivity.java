@@ -1,21 +1,20 @@
 package com.adda.datingapp.activity;
-/*
- * Created by  MD.Masud Raj on 2/24/22 1:06AM
- *  Copyright (c) 2022 . All rights reserved.
- * if your need any help knock this number +8801776254584 whatsapp
- */
+
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 
+import com.adda.datingapp.MainActivity;
 import com.adda.datingapp.model.User;
 import com.adda.datingapp.R;
 import com.adda.datingapp.databinding.ActivitySignUpBinding;
@@ -30,12 +29,21 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.annotations.NotNull;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.Objects;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class SignUpActivity extends AppCompatActivity implements View.OnClickListener {
@@ -44,7 +52,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     ProgressDialog dialog;
     FirebaseAuth auth;
     FirebaseDatabase database;
-
+    private CircleImageView profileImageCIV;
+    private Uri profileURI;
+    FirebaseStorage storage;
     private PreferenceManager preferenceManager;
 
 
@@ -65,6 +75,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
+        storage = FirebaseStorage.getInstance();
 
 
         binding.Signup.setOnClickListener(SignUpActivity.this);
@@ -99,6 +110,15 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                 startActivity(new Intent(SignUpActivity.this, LoginActivity.class));
                 finishAffinity();
             }
+        });
+
+        binding.profileCiv.setOnClickListener( view -> {
+
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent, 8);
+
         });
 
 
@@ -171,13 +191,18 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (phoneE.isEmpty()) {
             binding.phone.setError("Phone Number is required");
             binding.phone.requestFocus();
-
+            return;
         }
 
         if (phoneE.length() < 10) {
             binding.phone.setError("Please Provide valid Phone Number");
             binding.phone.requestFocus();
+            return;
+        }
 
+        if (profileURI == null){
+            Toast.makeText(SignUpActivity.this, "Please provide profile picture to create account.", Toast.LENGTH_SHORT).show();
+            return;
         }
 
 
@@ -207,6 +232,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     .child("Users")
                                     .child(uid)
                                     .setValue(userModel);
+
+                            savePhoto(uid, "Users", "user_photo");
 
                             preferenceManager.putString(Constants.KEY_NAME, binding.Name.getText().toString());
                             preferenceManager.putString(Constants.KEY_EMAIL, binding.email.getText().toString());
@@ -238,6 +265,9 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                                     .child("Partner")
                                     .child(uid)
                                     .setValue(userModel);
+
+                            savePhoto(uid, "Partner", "partner_photo");
+
                             preferenceManager.putString(Constants.KEY_NAME, binding.Name.getText().toString());
                             preferenceManager.putString(Constants.KEY_EMAIL, binding.email.getText().toString());
                             preferenceManager.putString(Constants.KEY_PASSWORD, binding.password.getText().toString());
@@ -259,5 +289,73 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == 8) {
+            if (data != null) {
+                if (data.getData() != null) {
+
+                    profileURI = data.getData();
+                    binding.profileCiv.setImageURI(profileURI);
+
+                    /*Uri uri = data.getData();
+                    binding.userProfile.setImageURI(uri);
+                    String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                    final StorageReference reference = storage.getReference()
+                            .child("user_photo")
+                            .child(uid);
+                    dialog.show();
+                    reference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(@NonNull @NotNull UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(getContext(), "Profile Saved", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(@NonNull @NotNull Uri uri) {
+                                    database.getReference()
+                                            .child("Users")
+                                            .child(auth.getUid())
+                                            .child("Profile")
+                                            .setValue(uri.toString());
+
+
+                                }
+                            });
+                        }
+                    });*/
+
+                }
+            }
+        }
+
+    }
+
+    private void savePhoto(String uid, String userType, String storageType){
+        final StorageReference reference = storage.getReference()
+                .child(storageType)
+                .child(uid);
+        //dialog.show();
+        reference.putFile(profileURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(@NonNull @NotNull UploadTask.TaskSnapshot taskSnapshot) {
+                //Toast.makeText(getContext(), "Profile Saved", Toast.LENGTH_SHORT).show();
+                //dialog.dismiss();
+                reference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(@NonNull @NotNull Uri uri) {
+                        database.getReference()
+                                .child(userType)
+                                .child(uid)
+                                .child("Profile")
+                                .setValue(uri.toString());
+
+
+                    }
+                });
+            }
+        });
+    }
 }

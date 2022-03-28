@@ -4,9 +4,6 @@ package com.adda.datingapp.activity;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.Manifest;
@@ -102,6 +99,7 @@ public class ChatsActivity extends AppCompatActivity {
 
 
         receiverUid = getIntent().getStringExtra("uid");
+
         senderUid = FirebaseAuth.getInstance().getUid();
 
         partnerCoin = callUser.getCoins();
@@ -120,13 +118,11 @@ public class ChatsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (userCoin > 19) {
-
                     Intent intent = new Intent(ChatsActivity.this, OutComingVdActivity.class);
                     intent.putExtra("user", callUser);
                     intent.putExtra("type", "video");
                     intent.putExtra("receiverUid", receiverUid);
                     startActivity(intent);
-
                 } else {
                     Toast.makeText(ChatsActivity.this, "ফোন করার জন্য আপনার পর্যাপ্ত পয়েন্ট নেই।প্লিজ পয়েন্ট রিচার্জ করুন।", Toast.LENGTH_SHORT).show();
 
@@ -141,13 +137,11 @@ public class ChatsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (userCoin > 19) {
-
                     Intent intent = new Intent(ChatsActivity.this, OutComingVdActivity.class);
                     intent.putExtra("user", callUser);
                     intent.putExtra("type", "audio");
                     intent.putExtra("receiverUid", receiverUid);
                     startActivity(intent);
-
                 } else {
                     Toast.makeText(ChatsActivity.this, "ফোন করার জন্য আপনার পর্যাপ্ত পয়েন্ট নেই।প্লিজ পয়েন্ট রিচার্জ করুন।", Toast.LENGTH_SHORT).show();
                 }

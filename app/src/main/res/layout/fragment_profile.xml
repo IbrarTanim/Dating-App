@@ -128,7 +128,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/ubio" />
+        app:layout_constraintTop_toBottomOf="@+id/ubio"
+        android:visibility="gone"/>
 
     <Button
         android:id="@+id/logout_button"

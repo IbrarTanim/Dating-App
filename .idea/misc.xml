@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/drawable/profilecir.xml" value="0.245" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/drawable/receive_drawable.xml" value="0.3828125" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/drawable/sent_drawable.xml" value="0.3828125" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/activity_chats.xml" value="0.36102564102564105" />
@@ -10,7 +11,10 @@
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/activity_message_photo.xml" value="0.36666666666666664" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/activity_out_coming_vd.xml" value="0.36666666666666664" />
+        <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/activity_sign_up.xml" value="0.36666666666666664" />
+        <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/conversion_demo.xml" value="0.36666666666666664" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/edit_bio_dialog.xml" value="0.36102564102564105" />
+        <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/fragment_chat.xml" value="0.36666666666666664" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/fragment_partner_home.xml" value="0.36666666666666664" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/fragment_partner_profile.xml" value="0.36102564102564105" />
         <entry key="..\:/Touhid Workbench/OfficeWorkRemote/Dating-App/app/src/main/res/layout/fragment_profile.xml" value="0.36102564102564105" />

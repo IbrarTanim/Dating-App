@@ -7,7 +7,6 @@
 package com.adda.datingapp.activity;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -137,11 +136,7 @@ public class OutComingVdActivity extends AppCompatActivity {
                             } else {
                                 finishAndRemoveTask();
                             }
-
-
                         }
-
-
                     }
 
                     @Override
@@ -191,8 +186,6 @@ public class OutComingVdActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     private void initiateMeeting(String meetingType, String receiverToken) {
@@ -323,9 +316,6 @@ public class OutComingVdActivity extends AppCompatActivity {
                 isActive = false;
             }
         }
-
-
-
     };
 
 
@@ -348,9 +338,6 @@ public class OutComingVdActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(getApplicationContext()).unregisterReceiver(
                 invitationResponseReceiver
         );
-
-
-
     }
 
     @Override
@@ -406,6 +393,7 @@ public class OutComingVdActivity extends AppCompatActivity {
         handler.postDelayed(runnable, millisecond);
     }
 
+
     private void cancelCall() {
         if (userCoin > 4) {
             isActive = false;
@@ -421,6 +409,5 @@ public class OutComingVdActivity extends AppCompatActivity {
             isActive = true;
         }
     }
-
 
 }
