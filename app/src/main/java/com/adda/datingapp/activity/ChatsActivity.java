@@ -249,6 +249,13 @@ public class ChatsActivity extends AppCompatActivity {
                             MessageModel messageModel = dataSnapshot.getValue(MessageModel.class);
                             String snapshotId = dataSnapshot.getKey();
                             if (messageModel.getSenderId().equals(receiverUid)){
+
+                                database.getReference()
+                                        .child("chats")
+                                        .child(senderRoom)
+                                        .child("lstMsgSeen")
+                                        .setValue("yes");
+
                                 database.getReference()
                                         .child("chats")
                                         .child(senderRoom)
@@ -345,6 +352,7 @@ public class ChatsActivity extends AppCompatActivity {
                     lastMessageObject.put("lastMsgTime", date.getTime());
 
                     database.getReference().child("chats").child(senderRoom).updateChildren(lastMessageObject);
+                    lastMessageObject.put("lstMsgSeen", "no");
                     database.getReference().child("chats").child(receiverRoom).updateChildren(lastMessageObject);
 
 
@@ -372,8 +380,8 @@ public class ChatsActivity extends AppCompatActivity {
                             HashMap<String, Object> lastMessageObject = new HashMap<>();
                             lastMessageObject.put("lastMsg", messageModel.getMessage());
                             lastMessageObject.put("lastMsgTime", date.getTime());
-
                             database.getReference().child("chats").child(senderRoom).updateChildren(lastMessageObject);
+                            lastMessageObject.put("lstMsgSeen", "no");
                             database.getReference().child("chats").child(receiverRoom).updateChildren(lastMessageObject);
 
                         }
@@ -436,6 +444,7 @@ public class ChatsActivity extends AppCompatActivity {
                                         lastMessageObject.put("lastMsgTime", date.getTime());
 
                                         database.getReference().child("chats").child(senderRoom).updateChildren(lastMessageObject);
+                                        lastMessageObject.put("lstMsgSeen", "no");
                                         database.getReference().child("chats").child(receiverRoom).updateChildren(lastMessageObject);
 
 
@@ -464,6 +473,7 @@ public class ChatsActivity extends AppCompatActivity {
                                                 lastMessageObject.put("lastMsgTime", date.getTime());
 
                                                 database.getReference().child("chats").child(senderRoom).updateChildren(lastMessageObject);
+                                                lastMessageObject.put("lstMsgSeen", "no");
                                                 database.getReference().child("chats").child(receiverRoom).updateChildren(lastMessageObject);
 
                                             }

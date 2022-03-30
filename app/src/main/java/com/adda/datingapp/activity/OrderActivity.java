@@ -65,8 +65,6 @@ public class OrderActivity extends AppCompatActivity {
                             Name = user.getName();
                             Email = user.getEmail();
                             UserPoint = user.getCoins();
-
-
                         }
 
 
@@ -93,6 +91,8 @@ public class OrderActivity extends AppCompatActivity {
                 order.put("point", Point);
                 order.put("taka", Taka);
                 order.put("Last 4 Digit Number",AccountNum);
+                order.put("ok","0");
+                order.put("applied","0");
 
                 if (num.isEmpty()) {
                     binding.accountNum.setError("Account Number is required");
@@ -117,14 +117,12 @@ public class OrderActivity extends AppCompatActivity {
                             .setValue(order).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            database.getReference()
+                            /*database.getReference()
                                     .child("Users")
                                     .child(auth.getUid())
                                     .child("coins")
-                                    .setValue(UserPoint + Point);
-
-
-                            Toast.makeText(OrderActivity.this, "Order send Success", Toast.LENGTH_SHORT).show();
+                                    .setValue(UserPoint + Point);*/
+                            Toast.makeText(OrderActivity.this, "Order send success, please wait for admin confirmation.", Toast.LENGTH_LONG).show();
                             finish();
                         }
                     });

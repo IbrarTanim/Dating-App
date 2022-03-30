@@ -20,5 +20,6 @@
     <color name="gray">#BDBDBD</color>
     <color name="view">#C1BFBF</color>
     <color name="button">#FF4685</color>
+    <color name="new_primary">#E10916</color>
 
 </resources>

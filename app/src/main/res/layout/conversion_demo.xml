@@ -70,6 +70,7 @@
                     android:layout_height="wrap_content"
                     android:text="Tab to chat"
                     android:textSize="12sp"
+                    android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="@+id/MName"
                     app:layout_constraintTop_toBottomOf="@+id/MName" />
 

@@ -10,9 +10,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/adda_dating_app"
+        android:icon="@mipmap/adda_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@drawable/adda_dating_app"
+        android:roundIcon="@mipmap/adda_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AddaDatingApp"
         android:usesCleartextTraffic="true"

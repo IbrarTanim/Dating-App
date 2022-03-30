@@ -191,13 +191,11 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         if (phoneE.isEmpty()) {
             binding.phone.setError("Phone Number is required");
             binding.phone.requestFocus();
-            return;
         }
 
         if (phoneE.length() < 10) {
             binding.phone.setError("Please Provide valid Phone Number");
             binding.phone.requestFocus();
-            return;
         }
 
         if (profileURI == null){

@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adda.datingapp.model.User;
@@ -65,6 +66,17 @@ public class ConversionAdapter extends RecyclerView.Adapter<ConversionAdapter.Co
 
                             String lastMsg = snapshot.child("lastMsg").getValue(String.class);
                             long lastMsgTime = snapshot.child("lastMsgTime").getValue(long.class);
+                            if (snapshot.child("lstMsgSeen").getValue(String.class) != null){
+                                String lstMsgSeen = snapshot.child("lstMsgSeen").getValue(String.class);
+                                if (lstMsgSeen.equals("no")){
+                                    holder.binding.lastMsg.setTextColor(ContextCompat.getColor(context, R.color.black));
+                                }else {
+                                    holder.binding.lastMsg.setTextColor(ContextCompat.getColor(context, R.color.gray));
+                                }
+                            }else {
+                                holder.binding.lastMsg.setTextColor(ContextCompat.getColor(context, R.color.gray));
+                            }
+
                             holder.binding.lastMsg.setText(lastMsg);
 
                             Glide.with(context)

@@ -14,6 +14,12 @@ public class MessageModel {
         this.timestamp = timestamp;
     }
 
+    public MessageModel(String message, String senderId, String seenStatus, long timestamp) {
+        this.message = message;
+        this.senderId = senderId;
+        this.seenStatus = seenStatus;
+        this.timestamp = timestamp;
+    }
 
     public MessageModel() {
     }

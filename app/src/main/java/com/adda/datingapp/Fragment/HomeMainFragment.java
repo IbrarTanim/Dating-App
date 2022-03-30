@@ -31,6 +31,7 @@ import com.adda.datingapp.databinding.FragmentHomeBinding;
 
 
 import com.adda.datingapp.listeners.ClickListener;
+import com.adda.datingapp.model.OrderModel;
 import com.adda.datingapp.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 
@@ -55,6 +56,7 @@ public class HomeMainFragment extends Fragment {
     FirebaseAuth auth;
     Dialog popupDialog;
     Context context;
+    private long coins;
 
 
     public HomeMainFragment() {
@@ -85,12 +87,12 @@ public class HomeMainFragment extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if (auth.getCurrentUser() != null){
+                if (auth.getCurrentUser() != null) {
                     PointsWalletFragment pointsWalletFragment = new PointsWalletFragment();
                     FragmentTransaction transaction = getParentFragmentManager().beginTransaction();
                     transaction.replace(R.id.FragmentContent, pointsWalletFragment);
                     transaction.commit();
-                }else {
+                } else {
                     startLogin();
                     startLogin();
                 }
@@ -102,7 +104,7 @@ public class HomeMainFragment extends Fragment {
 
         UserAdapter adapter = new UserAdapter(list, getContext(), ((view, position) -> {
 
-            if (auth.getCurrentUser() != null){
+            if (auth.getCurrentUser() != null) {
                 if (list != null && !list.isEmpty()) {
                     User user = list.get(position);
                     String userId = user.getUid();
@@ -115,7 +117,7 @@ public class HomeMainFragment extends Fragment {
                     transaction.replace(R.id.FragmentContent, partnerDetailsFragment);
                     transaction.commit();
                 }
-            }else {
+            } else {
                 startLogin();
             }
 
@@ -154,8 +156,55 @@ public class HomeMainFragment extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             if (snapshot.exists() && snapshot.getValue() != null) {
                                 User user = snapshot.getValue(User.class);
-                                long coins = (long) user.getCoins();
+                                coins = (long) user.getCoins();
                                 binding.usercoin.setText("My Points: " + coins);
+
+                                database.getReference()
+                                        .child("order")
+                                        .child(auth.getUid())
+                                        .addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                if (snapshot.exists() && snapshot.getValue() != null) {
+                                                    for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                                        try {
+                                                            OrderModel orderModel = dataSnapshot.getValue(OrderModel.class);
+                                                            if (orderModel.getApplied().equals("0")) {
+                                                                if (orderModel.getOk().equals("1")) {
+
+                                                                    String path = dataSnapshot.getKey();
+
+                                                                    coins = coins + orderModel.getPoint();
+
+                                                                    database.getReference()
+                                                                            .child("Users")
+                                                                            .child(auth.getUid())
+                                                                            .child("coins")
+                                                                            .setValue(coins);
+
+                                                                    database.getReference()
+                                                                            .child("order")
+                                                                            .child(auth.getUid())
+                                                                            .child(path)
+                                                                            .child("applied")
+                                                                            .setValue("1");
+
+                                                                    binding.usercoin.setText("My Points: " + coins);
+                                                                }
+                                                            }
+                                                        } catch (Exception e) {
+                                                            //skip
+                                                            String excep = e.getMessage();
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
                             }
 
 
